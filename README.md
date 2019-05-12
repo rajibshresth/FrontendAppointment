@@ -1,8 +1,11 @@
 # Your Project Title
 
 Name: Your full name here
+
 CollegeID: Your college ID
+
 Batch: Jan19A/19B/19C/19D
+
 
 # Frontend code architecture
 
