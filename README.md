@@ -1,10 +1,10 @@
 # Your Project Title
 
-Name: Your full name here
+Name: Rajib Shrestha
 
-CollegeID: Your college ID
+CollegeID: 160442
 
-Batch: Jan19A/19B/19C/19D
+Batch: Jan 19C
 
 
 # Frontend code architecture
