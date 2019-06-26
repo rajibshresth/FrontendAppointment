@@ -4,8 +4,7 @@
 			Office Appointment Booking App
 	</title>
 			<link rel= "stylesheet" type="text/css" href="resources/style.css"  />
-			<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+			<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 			<script>
 			$(document).ready(function(){
@@ -55,9 +54,9 @@
                     email: email,
                     password: password 
                 }
-                alert(username)
+                alert(email)
                 $.ajax({
-                    url:"http://localhost:3001/Signup",
+                    url:"http://localhost:3001/login",
                     type: 'post',
                     dataType: 'json',
                     data: data,
@@ -124,7 +123,7 @@
 				<h2>LOGIN</h2>
 				<input type="text" name="email" id="email" placeholder="Email">
 				<input type="password" name="password" id="password" placeholder="Password">
-				<button type="submit" >Login</button>
+				<button type="submit" id="login">Login</button>
 			</form>
 				<!-- <a href="">Forgot password?</a> -->
 			</div>
@@ -141,7 +140,7 @@
 			</form>
 			</div>
 		
-            <script>
+    <script>
                 
     $(document).ready(function(){
     $('.login-info-box').fadeOut();
@@ -169,6 +168,6 @@ $('.login-reg-panel input[type="radio"]').on('change', function() {
         $('.register-show').removeClass('show-log-panel');
     }
 });
-			</script>
+		</script>
 	</body>
 </html>
