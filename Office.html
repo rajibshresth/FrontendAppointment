@@ -5,7 +5,7 @@
 	</title>
 			<link rel= "stylesheet" type="text/css" href="resources/style.css"  />
             <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-            <link href="resources/bootstrap/js/bootstrap.min.js" rel="stylesheet"/>
+            <link href="resources/bootstrap/js/bootstrap.min.js" rel="stylesheet" />
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 			<script>
 			$(document).ready(function(){
@@ -62,13 +62,12 @@
                     data: data,
                     success: function(res, textStatus, xhr) {
                         console.log(res)
-                        if (res.token != null) {
-                            localStorage.setItem('token', res.token);
-                            if (res.usertype == admin) {
-                                location.href = admindash.html
-                            } else if (res.usertype == user) {
-                                location.href = index.html
-								// profile.htmlid= + res.id
+                        if (res.token !== null) {
+                            window.localStorage.setItem('token', res.token);
+                            if (res.usertype == "admin") {
+                                window.location.href = "admindash.html"
+                            } else {
+                                window.location.href = "profile.htmlid= + res.id"
                             }
                         }
                     },
