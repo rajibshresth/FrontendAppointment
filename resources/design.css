@@ -41,6 +41,7 @@ body {
 }
 /* Padding for spacing */
 .inner {
+  margin-left: 400px;
   padding: 2rem;
 }
 /*
@@ -51,6 +52,7 @@ body {
   padding: 0 1.5rem;
 }
 .cover .btn-lg {
+  margin-left: 150px;
   padding: .75rem 1.25rem;
   font-weight: bold;
 }

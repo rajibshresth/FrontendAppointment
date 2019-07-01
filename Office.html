@@ -3,12 +3,35 @@
 		<title>
 			Office Appointment Booking App
 	</title>
-			<link rel= "stylesheet" type="text/css" href="resources/style.css"  />
+            <link rel= "stylesheet" type="text/css" href="resources/style.css"  />
+            <script src="resources/jquery/jquery.min.js"></script>
             <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
             <link href="resources/bootstrap/js/bootstrap.min.js" rel="stylesheet" />
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-			<script>
+            <script>
 			$(document).ready(function(){
+                let imageFile='';
+        $("#fileToUpload").on('change', function () {
+        let formData = new FormData();
+        let files = $("#fileToUpload").get(0).files;
+        if (files.length > 0) {
+            formData.append("imageFile", files[0]);
+        }
+        // $("#add-hero").prop("disabled", true);
+        $.ajax({
+            type: 'POST',
+            url:"http://localhost:3001/uploadImage",
+            contentType: false,
+            cache: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                imageFile = data.filename;
+            },
+            error: function () {
+                alert("Image upload failed!");
+            }
+        });
+    });
    $("form.signup").on("submit",function(e){
        e.preventDefault();
        var name=$("#fullname").val();
@@ -16,14 +39,16 @@
        var password=$("#password").val();
        var phone=$("#phonenumber").val();
        var address=$("#address").val();
+       var usertype = $("#usertype").val();
        
        var data={
+           profile:imageFile,
            fullname:name,
 		   email:email,
            password:password,
            phonenumber:phone,
            address:address,
-           user_type:"user"
+           usertype:usertype
        }
 
        $.ajax({
@@ -32,8 +57,8 @@
            data:data,
             success:function(responseData,textStatus,jqXHR){
                 console.log(responseData);
-                alert(responseData.message);
-                location.href="index.html"
+                alert("User Registered Successfully");
+                location.href="office.html"
             },
             error:function(jqXHR,textStatus,errorThrown){
                 console.log(errorThrown)
@@ -41,7 +66,8 @@
             }
        })
        return false;
-   })
+   }) 
+
 })
 			</script>
 		<script>
@@ -64,10 +90,16 @@
                         console.log(res)
                         if (res.token !== null) {
                             window.localStorage.setItem('token', res.token);
+                            window.localStorage.setItem('fullname',res.fullname);
+                            window.localStorage.setItem('email',res.email);
+                            window.localStorage.setItem('phonenumber',res.phonenumber);
+                            window.localStorage.setItem('address',res.address);
                             if (res.usertype == "admin") {
+                                alert("Welcome!"+ res.fullname);
                                 window.location.href = "admindash.html"
                             } else {
-                                window.location.href = "profile.htmlid= + res.id"
+                                alert("Welcome!" + res.fullname);
+                                window.location.href = "profile.html";
                             }
                         }
                     },
@@ -81,7 +113,6 @@
         });
 		</script>
 	</head>
-<!------ Include the above in your HEAD tag ---------->
 <body>
 		<nav class="main-navigation">
 				<div class="navbar-header animated fadeInUp"></div>
@@ -120,21 +151,22 @@
 			<form>
 			<div class="login-show">
 				<h2>LOGIN</h2>
-				<input type="text" name="email" id="mail" placeholder="Email">
-				<input type="password" name="password" id="pswd" placeholder="Password">
+				<input type="text" name="email" id="mail" placeholder="Email" required>
+				<input type="password" name="password" id="pswd" placeholder="Password" required >
 				<button type="submit" id="login">Login</button>
 			</form>
 				<!-- <a href="">Forgot password?</a> -->
 			</div>
 			<div class="register-show">
 				<h2>REGISTER</h2>
-				<form class="form signup" >
+				<form class="form signup" enctype="multipart/form-data">
+                <input type="file" name="fileToUpload" id="fileToUpload">
 				<input type="text" name="fullname" id="fullname" placeholder="FullName">
 				<input type="text" name="email" id="email" placeholder="Email">
 				<input type="password" name="password" id="password" placeholder="Password">
 				<input type="text" name="phonenumber" id="phonenumber"placeholder="PhoneNumber">
 				<input type="text" name="address" id="address" placeholder="Address">
-				<input type="text" name="usertype" id="usertype" value="User"  placeholder="user" readonly>
+				<input type="text" name="usertype" id="usertype" value="User"  placeholder="User" readonly>
 				<button type="submit">Register</button>
 			</form>
 			</div>
