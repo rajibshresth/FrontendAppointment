@@ -8,43 +8,68 @@
 <script src="resources/bootstrap/js/bootstrap.min.js"></script>
 
 <script>
-    $(document).ready(function(){
-$("form.update").on("submit",function(e){
-e.preventDefault();
-var name=$("#fullname").val();
-var email=$("#email").val();
-var password=$("#password").val();
-var phone=$("#phonenumber").val();
-var address=$("#address").val();
-var usertype = $("#usertype").val();
-
-var data={
-   fullname:name,
-   email:email,
-   password:password,
-   phonenumber:phone,
-   address:address,
-   usertype:usertype
-}
-
-$.ajax({
-   type:"POST",
-   url:"http://localhost:3001/Signup",
-   data:data,
-    success:function(responseData,textStatus,jqXHR){
-        console.log(responseData);
-        alert("Employee Added Successfully");
-        location.href="admindash.html"
-    },
-    error:function(jqXHR,textStatus,errorThrown){
-        console.log(errorThrown)
-        alert(errorThrown)
+        $(document).ready(function(){
+            let imageFile='';
+    $("#fileToUpload").on('change', function () {
+    let formData = new FormData();
+    let files = $("#fileToUpload").get(0).files;
+    if (files.length > 0) {
+        formData.append("imageFile", files[0]);
     }
+    // $("#add-hero").prop("disabled", true);
+    $.ajax({
+        type: 'POST',
+        url:"http://localhost:3001/uploadImage",
+        contentType: false,
+        cache: false,
+        processData: false,
+        data: formData,
+        success: function (data) {
+            imageFile = data.filename;
+        },
+        error: function () {
+            alert("Image upload failed!");
+        }
+    });
+});
+$("form.update").on("submit",function(e){
+   e.preventDefault();
+   var name=$("#fullname").val();
+   var email=$("#email").val();
+   var password=$("#password").val();
+   var phone=$("#phonenumber").val();
+   var address=$("#address").val();
+   var usertype = $("#usertype").val();
+   
+   var data={
+       profile:imageFile,
+       fullname:name,
+       email:email,
+       password:password,
+       phonenumber:phone,
+       address:address,
+       usertype:usertype
+   }
+
+   $.ajax({
+       type:"POST",
+       url:"http://localhost:3001/Signup",
+       data:data,
+        success:function(responseData,textStatus,jqXHR){
+            console.log(responseData);
+            alert("Employee Added Successfully");
+            location.href="admindash.html"
+        },
+        error:function(jqXHR,textStatus,errorThrown){
+            console.log(errorThrown)
+            alert(errorThrown)
+        }
+   })
+   return false;
+}) 
+
 })
-return false;
-})
-})
-    </script>
+        </script>
 </head>
 <body>
     <div class="page-topbar">
@@ -129,7 +154,8 @@ return false;
                  <section class="box">
                      <div class="move">
                        <p><h2>Add Employee</h2></p><br><br>
-                       <form class="form update">
+                       <form class="form update" enctype="multipart/form-data">
+                        <p><input type="file" name="fileToUpload" id="fileToUpload"></p>
                        <p><input type="text" name="fullname" id="fullname" placeholder="Fullname"></p>
                        <p><input type="text" name="email" id="email" placeholder="Email"></p>
                        <p><input type="password" name="password" id="password" placeholder="Password"></p>
