@@ -4,12 +4,12 @@ body{
   font-family: 'Mukta', sans-serif;
 	height:100vh;
 	min-height:550px;
-	background-image: url(http://www.planwallpaper.com/static/images/Free-Wallpaper-Nature-Scenes.jpg);
+	/* background-image: url(http://www.planwallpaper.com/static/images/Free-Wallpaper-Nature-Scenes.jpg); */
 	background-repeat: no-repeat;
 	background-size:cover;
 	background-position:center;
 	position:relative;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 a.navbar-brand {
     float: left;
@@ -305,7 +305,7 @@ a{
 }
 
 .page-topbar .logo-area {
-    background-image: url("https://lh3.googleusercontent.com/-N4NB2F966TU/WM7V1KYusRI/AAAAAAAADsM/QUIsUhwEVAgj1-fK8mqzAqDiDwEKlKc7QCL0B/w185-d-h40-p-rw/logo.png");
+    background-image: url("images/profile.png");
     background-repeat: no-repeat;
 }
 .page-topbar .logo-area {

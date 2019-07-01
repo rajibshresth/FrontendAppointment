@@ -72,6 +72,7 @@
 			</script>
 		<script>
 			$(document).ready(function() {
+                var tok= localStorage.getItem("token");
             $('#login').click(function(e) {
                 e.preventDefault();
                 var email = $("#mail").val();
