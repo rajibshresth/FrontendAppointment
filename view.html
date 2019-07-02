@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Admin Dashboard</title>
+<title>Appointments</title>
 <link rel= "stylesheet" type="text/css" href="resources/style.css"  />
 <script src="resources/jquery/jquery.min.js"></script>
 <script src="resources/jquery/jquery-1.11.1.min.js"></script>
@@ -31,6 +31,42 @@
        });
           }); 
         })
+        </script>
+        <script>
+        $(document).ready(function(){
+            var tok = localStorage.getItem('token');
+      
+            $.getJSON('http://localhost:3001/showappointment', function(res){$.each(res, function(index){
+                $('#viewappointment').append('<tr>'  
+                  + '<td>' + res[index].fullname + '</td>'          
+                + '<td>' + res[index].date + '</td>'
+                + '<td>' + res[index].time + '</td>'
+                +'<td>' + res[index].phonenumber + '</td>'
+                + '<td>' + res[index].admins + '</td>'
+                +'<td>' + res[index].address + '</td>'
+                + '<td><button class="btn btn-primary" id="delete" value="' +res[index]._id +'">Delete</button></td>'+ '</tr>');
+            }); 
+    
+            $('#delete').click(function () {
+                alert("Reservation Deleted Successfully");
+                location.href = "view.html";
+                id = $(this).val();
+                console.log(id);
+                $.ajax({
+                url: 'http://localhost:3001/deleteappointment/'+id,
+                type: 'DELETE',
+                dataType: 'json',
+                data:id,
+                success: function (data, textStatus, xhr) {
+                console.log(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+                }
+                });
+             });
+            });  
+            })
         </script>
 </head>
 <body>
@@ -101,10 +137,8 @@
            <ul class="wraplist" style="height: auto;">	
  <!--          <li class="menusection">Main</li>-->
  <li><a href="admindash.html"><span class="sidebar-icon"><i class="fa fa-dashboard"></i></span> <span class="menu-title">View Users</span></a></li>
- <!-- <li><a href=""><span class="sidebar-icon"><i class="fa fa-bullseye"></i></span> <span class="menu-title">Goal Management</span></a></li> -->
  <li><a href="employee.html"><span class="sidebar-icon"><i class="fa fa-users"></i></span> <span class="menu-title">Manage Employee</span></a></li>
  <li><a href="view.html"><span class="sidebar-icon"><i class="fa fa-calendar"></i></span> <span class="menu-title">Appointments</span></a></li>
- <!-- <li><a href=""><span class="sidebar-icon"><i class="fa fa-suitcase"></i></span> <span class="menu-title">Meetings</span></a></li> -->
  <li><span class="sidebar-icon"><i class="fa fa-lock"></i></span><button type= "submit" class="menu-title" id="logout">Sign Out</button></li>
            </ul>
          </div>
@@ -114,17 +148,16 @@
              <div class="col-md-12">              
                  <section class="box">
                      <div class="move">
-                            <table class="table">
+                            <table class="table" id="viewappointment">
                                     <thead>
                                       <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Image</th>
                                         <th scope="col">Fullname</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Password</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Time</th>
                                         <th scope="col">Phonenumber</th>
+                                        <th scope="col">Appointment_with</th>
                                         <th scope="col">Address</th>
-                                  
+                                        <th>Delete</th>
                                       </tr>
                                     </thead>
                                   </table>

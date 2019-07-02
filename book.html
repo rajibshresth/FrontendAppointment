@@ -6,6 +6,60 @@
 <script src="resources/jquery/jquery-1.11.1.min.js"></script>
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="resources/bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+        $(document).ready(function(){
+            var tok= localStorage.getItem("token");
+            $("#logout").click(function(){
+            $.ajax({
+         type: 'post',
+         url: 'http://localhost:3001/users/logout',
+         beforeSend: function(xhr) {
+           if (tok) {
+             xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
+           }
+         },
+         success: function(data) {
+          location.href="Office.html";
+                                         
+            },
+      
+         error: function() {
+           //alert("Sorry, you are not logged in.");
+           location.href="Office.html";
+         }
+       });
+          }); 
+        })
+        </script>
+        <script type="text/javascript">
+          $(document).ready(function(){
+          var tok = localStorage.getItem('token');
+     $("#add").click(function (e) {
+      e.preventDefault();
+      let data = {
+          fullname: $("#fullname").val(),
+          date: $("#date").val(),
+          time: $("#time").val(),
+          phonenumber: $("#phonenumber").val(),
+          admins: $("#admins").val(),
+          address: $("#address").val()
+      };
+      console.log(data);
+      $.ajax({
+          type: 'POST',
+          url:"http://localhost:3001/appointment",
+          data: data,
+          success: function (hero) {
+              alert("Booking Reserved Successfully");
+              location.href = "book.html";
+          },
+          error: function () {
+              alert("Fill all the form fields!");
+          }
+      });
+  }); })   
+  </script>
 </head>
 <body>
     <div class="page-topbar">
@@ -54,11 +108,8 @@
            <ul class="wraplist" style="height: auto;">	
  <!--          <li class="menusection">Main</li>-->
            <li><a href="profile.html"><span class="sidebar-icon"><i class="fa fa-dashboard"></i></span> <span class="menu-title">Dashboard</span></a></li>
-           <!-- <li><a href=""><span class="sidebar-icon"><i class="fa fa-bullseye"></i></span> <span class="menu-title">Goal Management</span></a></li> -->
            <li><a href="book.html"><span class="sidebar-icon"><i class="fa fa-users"></i></span> <span class="menu-title">Book</span></a></li>
-           <li><a href=""><span class="sidebar-icon"><i class="fa fa-calendar"></i></span> <span class="menu-title">Appointments</span></a></li>
-           <!-- <li><a href=""><span class="sidebar-icon"><i class="fa fa-suitcase"></i></span> <span class="menu-title">Meetings</span></a></li> -->
-           <li><a href=""><span class="sidebar-icon"><i class="fa fa-lock"></i></span> <span class="menu-title">Sign Out</span></a></li>
+           <li><span class="sidebar-icon"><i class="fa fa-lock"></i></span><button type= "submit" class="menu-title" id="logout">Sign Out</button></li>
            </ul>
          </div>
      </div>
@@ -70,11 +121,16 @@
                         <p><h2>Book Appointment</h2></p><br><br>
                         <form class="form book">
                         <p><input type="text" name="fullname" id="fullname" placeholder="Name"></p>
-                        <p><input type="text" name="date" id="date" placeholder="Date"></p>
-                        <p><input type="text" name="time" id="time" placeholder="Time"></p>
-                        <p><input type="text" name="phonenumber" id="phonenumber"placeholder="PhoneNumber"></p>
+                        <p><input type="date" name="date" id="date" placeholder="Date"></p>
+                        <p><input type="time" name="time" id="time" placeholder="Time"></p>
+                        <p><input type="number" name="phonenumber" id="phonenumber"placeholder="PhoneNumber"></p>
+                        <p><select name="admins" id="admins">
+                          <option value="Shrawan Shakya">Shrawan Shakya</option>
+                          <option value="Gunjan Shakya">Gunjan Shakya</option>
+                          <option value="Sajan Manandhar">Sajan Manandhar</option>
+                        </select></p>
                         <p><input type="text" name="address" id="address" placeholder="Destination"></p>
-                        <button type="submit">Book</button>
+                        <button type="submit" id="add">Book</button>
                     </form>
                     </div>
                     </section>

@@ -16,7 +16,7 @@
         if (files.length > 0) {
             formData.append("imageFile", files[0]);
         }
-        // $("#add-hero").prop("disabled", true);
+        
         $.ajax({
             type: 'POST',
             url:"http://localhost:3001/uploadImage",
@@ -129,9 +129,6 @@
 					<li class="nav-list-item">
 						<a href="contact.html" class="nav-link">Contact</a>
 					</li>
-					<!-- <li class="nav-list-item">
-							<a href="#" class="nav-link">Login</a>
-						</li> -->
 				</ul>
 		
 			</nav>
