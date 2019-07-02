@@ -11,23 +11,23 @@
     $(document).ready(function(){
         var tok= window.localStorage.getItem("token");
 
-        $.ajax({
- type: 'get',
- url: 'http://localhost:3001/users/me',
- beforeSend: function(xhr) {
-   if (tok) {
-     xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
-   }
- },
- success: function(user) {
-  alert("abc");
-  $('.profile-title').append('<div class="text-bold text-success p-2"' + '<li>' + 'Mr.'+ user.fullname + '</li>' + '</div>');
- },
- error: function() {
-  alert("Sorry, you are not logged in.");
-  //  location.href="Office.html";
- }
-});
+//         $.ajax({
+//  type: 'get',
+//  url: 'http://localhost:3001/users/me',
+//  beforeSend: function(xhr) {
+//    if (tok) {
+//      xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
+//    }
+//  },
+//  success: function(user) {
+//   alert("abc");
+//   $('.profile-title').append('<div class="text-bold text-success p-2"' + '<li>' + 'Mr.'+ user.fullname + '</li>' + '</div>');
+//  },
+//  error: function() {
+//   alert("Sorry, you are not logged in.");
+//   //  location.href="Office.html";
+//  }
+// });
 
         $("#logout").click(function(){
         $.ajax({
@@ -101,6 +101,7 @@
  <!--          <li class="menusection">Main</li>-->
            <li><a href="profile.html"><span class="sidebar-icon"><i class="fa fa-dashboard"></i></span> <span class="menu-title">Dashboard</span></a></li>
            <li><a href="book.html"><span class="sidebar-icon"><i class="fa fa-users"></i></span> <span class="menu-title">Book</span></a></li>
+           <li><a href="contact.html"><span class="sidebar-icon"><i class="fa fa-envelope"></i></span> <span class="menu-title">Feedback</span></a></li>
            <li><span class="sidebar-icon"><i class="fa fa-lock"></i></span><button type= "submit" class="menu-title" id="logout">Sign Out</button></li>
            </ul>
          </div>
