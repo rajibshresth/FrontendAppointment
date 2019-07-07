@@ -30,6 +30,24 @@
          }
        });
           }); 
+          $.ajax({
+ type: 'get',
+ url: 'http://localhost:3001/users/me',
+ beforeSend: function(xhr) {
+   if (tok) {
+     xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
+   }
+ },
+ success: function(user) {
+  $('.name').append('<div class="text-bold text-success p-2"' + '<li>' + 'Mr.'+ user.fullname + '</li>' + '</div>');
+  $('.profile-image').append('<img src ="http://localhost:3001/profile/'+user.profile+'" width="150" height="100">');
+  $('.profile').append('<img src ="http://localhost:3001/profile/'+user.profile+'" width="150" height="100">');
+ },
+ error: function() {
+  alert("Sorry, you are not logged in.");
+  location.href="Office.html";
+ }
+});
         })
         </script>
         <script>
@@ -79,35 +97,10 @@
          
         <ul class="pull-right info-menu user-info">
           <li class="profile">
-              <a href="#" data-toggle="dropdown" class="toggle" aria-expanded="false">
-                  <img src="resources/images/profile.png" class="img-circle img-inline">
                   <span>Admin 
                       <!-- <i class="fa fa-angle-down"> -->
                       </i></span>
               </a>
-              <!-- <ul class="dropdown-menu profile fadeIn ">
-                         <li>
-                             <a href="#settings">
-                                 <i class="fa fa-wrench"></i>
-                                 Settings
-                             </a>
-                         </li>
-                         <li>
-                             <a href="#profile">
-                                 <i class="fa fa-user"></i>
-                                 Profile
-                             </a>
-                         </li>
-                         
-                         <li class="last">
-                             <a href="ui-login.html">
-                                 <i class="fa fa-lock"></i>
-                                 Sign Out
-                             </a>
-                         </li>
-                     </ul> -->
-              
-             
             </li>
           </ul>
              
@@ -119,14 +112,14 @@
           <div class="profile-info row ">
             <div class="profile-image ">
                  <a href="admindash.html">
-                     <img alt="" src="resources/images/profile.png" class="img-circle img-inline class="img-responsive img-circle">
+                     <!-- <img alt="" src="resources/images/profile.png" class="img-circle img-inline class="img-responsive img-circle"> -->
                  </a>
              </div>
               <div class="profile-details">
                  <h3>
-                     <a href="admindash.html">Admin</a> 
+                     <a href="admindash.html" class="name"></a> 
                  </h3>
-                 <p class="profile-title">Admin </p>
+                 <p class="profile-title"> </p>
  
              </div>
            </div>

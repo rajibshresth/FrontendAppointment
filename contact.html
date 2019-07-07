@@ -34,7 +34,27 @@
                   alert("Fill all the form fields!");
               }
           });
-      }); })   
+      }); 
+          $.ajax({
+    type: 'get',
+    url: 'http://localhost:3001/users/me',
+    beforeSend: function(xhr) {
+      if (tok) {
+        xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
+      }
+    },
+    success: function(user) {
+      $('.name').append('<div class="text-bold text-success p-2"' + '<li>' + 'Mr.'+ user.fullname + '</li>' + '</div>');
+      $('.profile-image').append('<img src ="http://localhost:3001/profile/'+user.profile+'" width="150" height="100">');
+      $('.profile').append('<img src ="http://localhost:3001/profile/'+user.profile+'" width="150" height="100">');
+    },
+    error: function() {
+      alert("Sorry, you are not logged in.");
+      location.href="Office.html";
+    }
+    });
+
+      })   
       </script>
     </head>
     <body>
@@ -51,7 +71,6 @@
        <ul class="pull-right info-menu user-info">
          <li class="profile">
              <a href="#" data-toggle="dropdown" class="toggle" aria-expanded="false">
-                 <img src="resources/images/profile.png" class="img-circle img-inline">
                  <span>  
                      <!-- <i class="fa fa-angle-down"> -->
                      </i></span>
@@ -67,12 +86,12 @@
          <div class="profile-info row ">
            <div class="profile-image ">
                 <a href="profile.html">
-                    <img alt="profilepic" src="resources/images/profile.png" class="img-circle img-inline class="img-responsive img-circle">
+                    <!-- <img alt="profilepic" src="resources/images/profile.png" class="img-circle img-inline class="img-responsive img-circle"> -->
                 </a>
             </div>
              <div class="profile-details">
                 <h3>
-                    <a href="profile.html">
+                    <a href="profile.html" class="name">
                         
                     </a> 
                 </h3>

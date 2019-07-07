@@ -33,7 +33,6 @@
             processData: false,
             data: formData,
             success: function (data) {
-              
                 imageFile = data.filename;
             },
             error: function () {
@@ -42,24 +41,24 @@
         });
     });
 
-        $.ajax({
- type: 'get',
- url: 'http://localhost:3001/users/me',
- beforeSend: function(xhr) {
-   if (tok) {
-     xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
-   }
- },
- success: function(user) {
-  $('.name').append('<div class="text-bold text-success p-2"' + '<li>' + 'Mr.'+ user.fullname + '</li>' + '</div>');
-  $('.profile-image').append('<img src ="http://localhost:3001/profile/'+user.profile+'" width="150" height="100">');
-  $('.profile').append('<img src ="http://localhost:3001/profile/'+user.profile+'" width="150" height="100">');
- },
- error: function() {
-  alert("Sorry, you are not logged in.");
-  location.href="Office.html";
- }
-});
+            $.ajax({
+    type: 'get',
+    url: 'http://localhost:3001/users/me',
+    beforeSend: function(xhr) {
+      if (tok) {
+        xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
+      }
+    },
+    success: function(user) {
+      $('.name').append('<div class="text-bold text-success p-2"' + '<li>' + 'Mr.'+ user.fullname + '</li>' + '</div>');
+      $('.profile-image').append('<img src ="http://localhost:3001/profile/'+user.profile+'" width="150" height="100">');
+      $('.profile').append('<img src ="http://localhost:3001/profile/'+user.profile+'" width="150" height="100">');
+    },
+    error: function() {
+      alert("Sorry, you are not logged in.");
+      location.href="Office.html";
+    }
+    });
 
 $.ajax({
  type: 'get',
@@ -91,7 +90,6 @@ $.ajax({
 
 $("#update_profile").click(function(e){
   e.preventDefault();
-
   fullname = $("#fullname").val();
   email = $("#email").val();
   phonenumber = $("#phonenumber").val();
