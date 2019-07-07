@@ -10,24 +10,114 @@
 <script>
     $(document).ready(function(){
         var tok= window.localStorage.getItem("token");
+        var id;
+        var fullname;
+        var email;
+        var password;
+        var phonenumber;
+        var address;
 
-//         $.ajax({
-//  type: 'get',
-//  url: 'http://localhost:3001/users/me',
-//  beforeSend: function(xhr) {
-//    if (tok) {
-//      xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
-//    }
-//  },
-//  success: function(user) {
-//   alert("abc");
-//   $('.profile-title').append('<div class="text-bold text-success p-2"' + '<li>' + 'Mr.'+ user.fullname + '</li>' + '</div>');
-//  },
-//  error: function() {
-//   alert("Sorry, you are not logged in.");
-//   //  location.href="Office.html";
-//  }
-// });
+        let imageFile='';
+        $("#fileToUpload").on('change', function () {
+        let formData = new FormData();
+        let files = $("#fileToUpload").get(0).files;
+        if (files.length > 0) {
+            formData.append("imageFile", files[0]);
+        }
+        
+        $.ajax({
+            type: 'POST',
+            url:"http://localhost:3001/uploadImage",
+            contentType: false,
+            cache: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+              
+                imageFile = data.filename;
+            },
+            error: function () {
+                alert("Image upload failed!");
+            }
+        });
+    });
+
+        $.ajax({
+ type: 'get',
+ url: 'http://localhost:3001/users/me',
+ beforeSend: function(xhr) {
+   if (tok) {
+     xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
+   }
+ },
+ success: function(user) {
+  $('.name').append('<div class="text-bold text-success p-2"' + '<li>' + 'Mr.'+ user.fullname + '</li>' + '</div>');
+  $('.profile-image').append('<img src ="http://localhost:3001/profile/'+user.profile+'" width="150" height="100">');
+  $('.profile').append('<img src ="http://localhost:3001/profile/'+user.profile+'" width="150" height="100">');
+ },
+ error: function() {
+  alert("Sorry, you are not logged in.");
+  location.href="Office.html";
+ }
+});
+
+$.ajax({
+ type: 'get',
+ url: 'http://localhost:3001/users/me',
+ beforeSend: function(xhr) {
+   if (tok) {
+     xhr.setRequestHeader('Authorization', 'Bearer ' + tok);
+   }
+ },
+ success: function(user) {
+
+   $('#fullname').val(user.fullname);
+   $('#email').val(user.email);
+   $('#phonenumber').val(user.phonenumber);
+   $('#address').val(user.address);
+
+    id = user._id;
+   profile = imageFile;
+   fullname = user.fullname;
+   email = user.email;
+   phonenumber = user.phonenumber;
+   address = user.address;
+ },
+ error: function() {
+  alert("Sorry, you are not logged in.");
+  location.href="Office.html";
+ }
+});
+
+$("#update_profile").click(function(e){
+  e.preventDefault();
+
+  fullname = $("#fullname").val();
+  email = $("#email").val();
+  phonenumber = $("#phonenumber").val();
+  address = $("#address").val();
+   data1 = {
+     "profile" : imageFile,
+   "fullname" : fullname,
+   "email" : email,
+   "phonenumber" : phonenumber,
+   "address" : address
+   }
+   console.log(data1);
+  $.ajax({
+    type: 'PUT',
+    url: "http://localhost:3001/updateprofile",
+    data: data1,
+    success: function(result){
+      alert(result);
+    }, 
+    beforeSend: function(xhr){
+      if(tok){
+        xhr.setRequestHeader('Authorization', `Bearer ${tok}`);
+      }
+    },
+  });
+});
 
         $("#logout").click(function(){
         $.ajax({
@@ -58,7 +148,7 @@
          <div class="quick-area">
              
          <ul class="pull-left info-menu  user-notify">
-          <button id="menu_icon"><i class="fa fa-bars" aria-hidden="true"></i></button>
+          <button id="menu_icon"><i class="fa fa-bars" ></i></button>
           <!-- <li><a href="#"> <i class="fa fa-envelope"></i> <span class="badge">8</span></a></li> -->
           <!-- <li><a href="#"> <i class="fa fa-bell"></i> <span class="badge">5</span></a></li>          -->
           </ul>
@@ -66,12 +156,6 @@
          
         <ul class="pull-right info-menu user-info">
           <li class="profile">
-              <a href="#" data-toggle="dropdown" class="toggle" aria-expanded="false">
-                  <img src="resources/images/profile.png" class="img-circle img-inline">
-                  <span>  
-                      <!-- <i class="fa fa-angle-down"> -->
-                      </i></span>
-              </a>
             </li>
           </ul>
              
@@ -83,13 +167,12 @@
           <div class="profile-info row ">
             <div class="profile-image ">
                  <a href="profile.html">
-                     <img alt="profilepic" src="resources/images/profile.png" class="img-circle img-inline class="img-responsive img-circle">
+                     <!-- <img alt="profilepic" src="resources/images/profile.png" class="img-circle img-inline class="img-responsive img-circle"> -->
                  </a>
              </div>
               <div class="profile-details">
                  <h3>
-                     <a href="profile.html">
-                         
+                     <a href="profile.html" class="name">
                      </a> 
                  </h3>
                  <p class="profile-title"> </p>
@@ -112,13 +195,13 @@
               <section class="box">
                   <div class="move">
                     <p><h2>Update Profile</h2></p><br><br>
-                    <form class="form update">
-                    <p><input type="file" name="profile" id="profile"></p>
+                    <form class="form update" enctype="multipart/form-data">
+                    <p><input type="file" name="profile" id="fileToUpload"></p>
                     <p><input type="text" name="fullname" id="fullname" placeholder="Fullname"></p>
                     <p><input type="text" name="email" id="email" placeholder="Email"></p>
                     <p><input type="text" name="phonenumber" id="phonenumber"placeholder="PhoneNumber"></p>
                     <p><input type="text" name="address" id="address" placeholder="Address"></p>
-                    <button type="submit">Update</button>
+                    <button type="submit" id="update_profile">Update</button>
                 </form>
                 </div>
               </section>

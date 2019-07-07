@@ -527,7 +527,7 @@ li.profile img {
     position: fixed;
 }
 .page-sidebar.collapseit {
-    width: 60px;
+    width: 100px;
     margin-left: 0px !important;
     z-index: 99;
 }
